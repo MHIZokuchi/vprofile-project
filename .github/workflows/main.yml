@@ -69,7 +69,11 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           VERSION_LABEL=vprofile-$TIMESTAMP
-          aws s3 cp target/vprofile-v2.war s3://${{ secrets.S3_BUCKET }}/$VERSION_LABEL.war
+          S3_PATH="s3://${{ secrets.S3_BUCKET }}/${VERSION_LABEL}.war"
+          echo "Uploading to: $S3_PATH"
+          echo "Bucket value length: ${#S3_BUCKET}"
+          ls -la target/
+          aws s3 cp target/vprofile-v2.war "$S3_PATH"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
       - name: Create Beanstalk application version
