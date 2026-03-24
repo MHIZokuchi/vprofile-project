@@ -75,11 +75,12 @@ jobs:
 
       - name: Create Beanstalk application version
         run: |
+          SOURCE_BUNDLE='{"S3Bucket":"${{ secrets.S3_BUCKET }}","S3Key":"${{ env.VERSION_LABEL }}.war"}'
+          echo "Source bundle: $SOURCE_BUNDLE"
           aws elasticbeanstalk create-application-version \
-            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
-            --version-label ${{ env.VERSION_LABEL }} \
-            --source-bundle '{"S3Bucket":"${{ secrets.S3_BUCKET }}","S3Key":"${{ env.VERSION_LABEL }}.war"}'
-
+            --application-name "${{ secrets.EB_APPLICATION_NAME }}" \
+            --version-label "${{ env.VERSION_LABEL }}" \
+            --source-bundle "$SOURCE_BUNDLE"
       - name: Deploy to Beanstalk
         run: |
           aws elasticbeanstalk update-environment \
