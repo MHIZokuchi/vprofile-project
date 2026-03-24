@@ -7,10 +7,10 @@ on:
 
 jobs:
   test:
-    name: testing
-    runs on: ubuntu-latest
-  
-  steps:
+    name: Test the Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
