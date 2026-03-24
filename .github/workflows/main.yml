@@ -76,6 +76,13 @@ jobs:
           aws s3 cp target/vprofile-v2.war "$S3_PATH"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
+      - name: Debug environment name
+        run: |
+          aws elasticbeanstalk describe-environments \
+            --application-name "${{ secrets.EB_APPLICATION_NAME }}" \
+            --query "Environments[*].EnvironmentName" \
+            --output text
+
       - name: Create Beanstalk application version
         run: |
           SOURCE_BUNDLE='{"S3Bucket":"${{ secrets.S3_BUCKET }}","S3Key":"${{ env.VERSION_LABEL }}.war"}'
